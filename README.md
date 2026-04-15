@@ -1,4 +1,4 @@
-# AI Resume Enhancement System (Codefap) 🚀
+# AI Resume Screening system 🚀
 
 ## 🎯 Overview
 AI-powered SaaS platform that analyzes, enhances, and optimizes resumes for job applications.
