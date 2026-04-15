@@ -5,7 +5,10 @@ const Resume = require('../models/Resume');
 const auth = require('../middleware/auth'); // TODO
 const router = express.Router();
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({ 
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1"
+});
 
 // @desc    JD matching & skill gap
 // @route   POST /api/match/jd

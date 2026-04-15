@@ -9,8 +9,16 @@ const authRoutes = require('./routes/auth');
 const resumeRoutes = require('./routes/resume');
 const enhanceRoutes = require('./routes/enhance');
 const matchRoutes = require('./routes/match');
+const paymentRoutes = require('./routes/payment');
+const adminRoutes = require('./routes/admin');
+const fs = require('fs');
 
 const app = express();
+
+// Ensure uploads directory exists
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
 
 // Security middleware
 app.use(helmet());
@@ -35,10 +43,18 @@ app.use('/api/auth', authRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/enhance', enhanceRoutes);
 app.use('/api/match', matchRoutes);
+app.use('/api/payment', paymentRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, message: err.message || 'Server Error' });
 });
 
 // MongoDB connection
