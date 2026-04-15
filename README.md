@@ -1,6 +1,6 @@
 # AI Resume Screening system 🚀
 
-## 🎯 Overview
+## 🎯 Overview..
 AI-powered SaaS platform that analyzes, enhances, and optimizes resumes for job applications.
 - **Resume Parsing** (PDF/DOCX)
 - **AI Enhancement** (ATS-optimized, impact-focused)
