@@ -4,12 +4,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // Replace this config with your actual Firebase Project keys
 // From Firebase Console -> Project Settings -> General -> Web App
 const firebaseConfig = {
-  apiKey: "AIzaSyCxBLFFxaLvKox8T9oGTMcR59pqLBeOGLI",
-  authDomain: "resume-screening-system-c7d90.firebaseapp.com",
-  projectId: "resume-screening-system-c7d90",
-  storageBucket: "resume-screening-system-c7d90.firebasestorage.app",
-  messagingSenderId: "805429310590",
-  appId: "1:805429310590:web:e065af47d6815e3f44542f"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

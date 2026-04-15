@@ -29,7 +29,7 @@ export default function Pricing() {
 
       // 2. Initialize Razorpay
       const options = {
-        key: "rzp_test_SdPOgzpCjIZran", // It's safe to put public Key ID here, but user must replace it
+        key: import.meta.env.VITE_RAZORPAY_KEY, // Secured using environment variables
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Ai Resume Screening System",
