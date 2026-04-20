@@ -1,14 +1,9 @@
 const express = require('express');
-const OpenAI = require('openai');
+const { openai, getModel } = require('../utils/ai');
 const Report = require('../models/Report');
 const Resume = require('../models/Resume');
-const auth = require('../middleware/auth'); // TODO
+const auth = require('../middleware/auth');
 const router = express.Router();
-
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY,
-  baseURL: "https://api.groq.com/openai/v1"
-});
 
 // @desc    JD matching & skill gap
 // @route   POST /api/match/jd
@@ -27,7 +22,7 @@ router.post('/jd', auth, async (req, res) => {
 Resume: ${JSON.stringify(resume.parsedData)}
 JD: ${jdText}
 
-Return JSON:
+Return JSON ONLY:
 {
   "matchScore": number (0-100),
   "skillGaps": [{"skill": "string", "confidence": 0.8}],
@@ -37,12 +32,14 @@ Return JSON:
 }`;
 
     const completion = await openai.chat.completions.create({
-      model: process.env.MODEL || 'gpt-4o-mini',
+      model: getModel(),
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' }
     });
 
-    const analysis = JSON.parse(completion.choices[0].message.content);
+    let content = completion.choices[0].message.content;
+    content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+    const analysis = JSON.parse(content);
 
     const report = await Report.create({
       resumeId,
@@ -55,7 +52,7 @@ Return JSON:
       report: { id: report._id, ...analysis }
     });
   } catch (error) {
-    console.error(error);
+    console.error('Match Error:', error);
     res.status(500).json({ message: 'Analysis failed' });
   }
 });

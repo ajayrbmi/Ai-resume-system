@@ -1,8 +1,38 @@
 const express = require('express');
 const User = require('../models/User');
+const Job = require('../models/Job');
+const Resume = require('../models/Resume');
+const Report = require('../models/Report');
 const auth = require('../middleware/auth');
 const isAdmin = require('../middleware/isAdmin');
 const router = express.Router();
+
+// @desc    Get global admin stats
+// @route   GET /api/admin/stats
+router.get('/stats', auth, isAdmin, async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    const jobCount = await Job.countDocuments();
+    const resumeCount = await Resume.countDocuments();
+    
+    const reports = await Report.find();
+    const avgScore = reports.length > 0 
+      ? Math.round(reports.reduce((acc, r) => acc + (r.matchScore || 0), 0) / reports.length) 
+      : 0;
+
+    res.json({
+      success: true,
+      stats: {
+        users: userCount,
+        jobs: jobCount,
+        resumes: resumeCount,
+        avgScore: `${avgScore}%`
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 // @desc    Get all users
 // @route   GET /api/admin/users
@@ -23,7 +53,7 @@ router.put('/users/:id', auth, isAdmin, async (req, res) => {
     const user = await User.findById(req.user.id);
     
     // Prevent admin from removing their own admin role or banning themselves
-    if (req.params.id === req.user.id && (role === 'user' || status === 'banned')) {
+    if (req.params.id === req.user.id && (role === 'recruiter' || status === 'banned')) {
         return res.status(400).json({ message: "You cannot change your own admin role or ban yourself." });
     }
 

@@ -52,15 +52,15 @@ export default function Navbar() {
               <Link to="/pricing" className="hover:text-primary-600 transition-colors">Pricing</Link>
               <button onClick={() => scrollToSection('features')} className="hover:text-primary-600 transition-colors">Features</button>
               <button onClick={() => scrollToSection('faq')} className="hover:text-primary-600 transition-colors">FAQ</button>
-              {user?.role === 'admin' && (
-                <Link to="/admin" className="font-semibold text-amber-600 hover:text-amber-700 transition-colors">Admin</Link>
+              {user?.role === 'hr_admin' && (
+                <Link to="/admin" className="font-semibold text-amber-600 hover:text-amber-700 transition-colors">Admin Panel</Link>
               )}
             </nav>
 
             <div className="flex items-center gap-4 border-l pl-8 border-gray-200">
               {user ? (
                 <>
-                  <Link to="/upload" className="font-semibold text-gray-700 hover:text-primary-600 transition-colors">Dashboard</Link>
+                  <Link to="/dashboard" className="font-semibold text-gray-700 hover:text-primary-600 transition-colors">Dashboard</Link>
                   <Link to="/profile" className="flex items-center gap-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-emerald-50 hover:text-emerald-700 px-3 py-1.5 rounded-full transition-colors cursor-pointer" title="Edit Profile">
                     {user?.avatar ? (
                       <img src={user.avatar} className="w-5 h-5 rounded-full object-cover" alt="avatar" />
@@ -101,13 +101,13 @@ export default function Navbar() {
           <Link to="/pricing" className="font-medium text-lg text-gray-800" onClick={() => setMobileMenu(false)}>Pricing</Link>
           <button onClick={() => scrollToSection('features')} className="font-medium text-lg text-gray-800 text-left">Features</button>
           <button onClick={() => scrollToSection('faq')} className="font-medium text-lg text-gray-800 text-left">FAQ</button>
-          {user?.role === 'admin' && (
-            <Link to="/admin" className="font-medium text-lg text-amber-600" onClick={() => setMobileMenu(false)}>Admin</Link>
+          {user?.role === 'hr_admin' && (
+            <Link to="/admin" className="font-medium text-lg text-amber-600" onClick={() => setMobileMenu(false)}>Admin Panel</Link>
           )}
           <hr className="border-gray-100" />
           {user ? (
             <>
-              <Link to="/upload" className="font-medium text-lg text-primary-600" onClick={() => setMobileMenu(false)}>Dashboard</Link>
+              <Link to="/dashboard" className="font-medium text-lg text-primary-600" onClick={() => setMobileMenu(false)}>Dashboard</Link>
               <Link to="/profile" className="font-medium text-lg text-gray-800" onClick={() => setMobileMenu(false)}>My Profile</Link>
               <button onClick={logout} className="text-left font-medium text-lg text-red-600">Log Out</button>
             </>

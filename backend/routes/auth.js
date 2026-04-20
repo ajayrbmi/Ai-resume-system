@@ -16,8 +16,11 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
+    // Determine role based on email for easy testing
+    const role = email.includes('hradmin') ? 'hr_admin' : 'recruiter';
+
     // Create user
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ name, email, password, role });
     
     // Generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

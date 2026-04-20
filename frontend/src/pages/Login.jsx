@@ -31,7 +31,7 @@ export default function Login() {
         localStorage.setItem('token', data.token)
         // Also set user locally so navbar updates immediately
         if (setUser && data.user) setUser(data.user)
-        window.location.href = data.user?.role === 'admin' ? '/admin' : '/dashboard'
+        window.location.href = '/dashboard'
       } else {
         // Show error from backend
         setError(data.message || 'Authentication failed. Is your MongoDB connected?')
@@ -61,7 +61,7 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem('token', data.token)
         if (setUser && data.user) setUser(data.user)
-        window.location.href = data.user?.role === 'admin' ? '/admin' : '/dashboard'
+        window.location.href = '/dashboard'
       } else {
         setError(data.message || 'Google Auth failed on server')
       }
@@ -78,7 +78,7 @@ export default function Login() {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-10 border border-gray-100">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            AI Resume Inhancement System
+            AI Resume Enhancement System
           </h1>
           <p className="text-gray-600">{isLogin ? 'Welcome back' : 'Create an account'}</p>
         </div>

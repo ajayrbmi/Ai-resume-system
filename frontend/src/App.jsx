@@ -3,7 +3,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import Home from '@/pages/Home'
-import Dashboard from '@/pages/Dashboard'
+import RecruiterDashboard from '@/pages/RecruiterDashboard'
+import HRAdminDashboard from '@/pages/HRAdminDashboard'
+import JobManager from '@/pages/JobManager'
+import JobCandidates from '@/pages/JobCandidates'
 import UploadResume from '@/pages/UploadResume'
 import Pricing from '@/pages/Pricing'
 import Login from '@/pages/Login'
@@ -43,13 +46,19 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={user ? <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} /> : <Login />} />
-          <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+          <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+          <Route path="/dashboard" element={
+            user ? (
+              user.role === 'hr_admin' ? <HRAdminDashboard /> : <RecruiterDashboard />
+            ) : <Navigate to="/login" />
+          } />
           <Route path="/upload" element={user ? <UploadResume /> : <Navigate to="/login" />} />
+          <Route path="/jobs" element={user ? <JobManager /> : <Navigate to="/login" />} />
+          <Route path="/jobs/:jobId/candidates" element={user ? <JobCandidates /> : <Navigate to="/login" />} />
           <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" />} />
           <Route path="/resume-builder" element={<ResumeBuilder />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/admin" element={user?.role === 'admin' ? <AdminPanel /> : <Navigate to="/" />} />
+          <Route path="/admin" element={user?.role === 'hr_admin' ? <AdminPanel /> : <Navigate to="/" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

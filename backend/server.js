@@ -11,6 +11,7 @@ const enhanceRoutes = require('./routes/enhance');
 const matchRoutes = require('./routes/match');
 const paymentRoutes = require('./routes/payment');
 const adminRoutes = require('./routes/admin');
+const jobRoutes = require('./routes/jobs');
 const fs = require('fs');
 
 const app = express();
@@ -30,7 +31,8 @@ app.use(cors({
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
+  max: 1000, // Increased limit for development
+  message: { success: false, message: 'Too many requests, please try again later.' }
 });
 app.use(limiter);
 
@@ -45,6 +47,7 @@ app.use('/api/enhance', enhanceRoutes);
 app.use('/api/match', matchRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

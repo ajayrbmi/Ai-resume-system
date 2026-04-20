@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState,useRef , useEffect } from 'react';
 import {
   DownloadIcon,
   ArrowLeftIcon,
@@ -27,7 +27,7 @@ export default function ResumeBuilder() {
     name: 'Ajay Kumar',
     title: 'Full Stack Web Developer',
     email: 'ajay.dev@example.com',
-    phone: '+91 98765 43210',
+    phone: '+91 7906622676',
     location: 'Mumbai, India',
     summary: 'Innovative Full Stack Developer with 3+ years of experience in building high-performance web applications. Expert in MERN stack, Next.js, and cloud deployments. Passionate about creating seamless user experiences and optimizing backend scalability.',
     experience: [

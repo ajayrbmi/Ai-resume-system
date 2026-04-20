@@ -15,7 +15,7 @@ export default function AdminPanel() {
   const [successMsg, setSuccessMsg] = useState('')
 
   useEffect(() => {
-    if (user && user.role !== 'admin') {
+    if (user && user.role !== 'hr_admin') {
       navigate('/dashboard')
     }
   }, [user, navigate])
@@ -34,7 +34,7 @@ export default function AdminPanel() {
   }
 
   useEffect(() => {
-    if (user?.role === 'admin') {
+    if (user?.role === 'hr_admin') {
       fetchUsers()
     }
   }, [user])
@@ -60,7 +60,7 @@ export default function AdminPanel() {
   }
 
   const handleUpdateRole = async (id, currentRole) => {
-    const newRole = currentRole === 'admin' ? 'user' : 'admin'
+    const newRole = currentRole === 'hr_admin' ? 'recruiter' : 'hr_admin'
     try {
       setActionLoading(true)
       const { data } = await axios.put(`/api/admin/users/${id}`, { role: newRole })
@@ -184,9 +184,9 @@ export default function AdminPanel() {
                   </td>
                   <td className="py-4 px-6">
                     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                      u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'
+                      u.role === 'hr_admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'
                     }`}>
-                      {u.role === 'admin' && <Shield className="w-3 h-3" />}
+                      {u.role === 'hr_admin' && <Shield className="w-3 h-3" />}
                       {u.role.toUpperCase()}
                     </span>
                   </td>
@@ -229,7 +229,7 @@ export default function AdminPanel() {
                       <button
                         onClick={() => handleUpdateRole(u._id, u.role)}
                         disabled={u._id === user._id}
-                        title={`Make ${u.role === 'admin' ? 'User' : 'Admin'}`}
+                        title={`Make ${u.role === 'hr_admin' ? 'Recruiter' : 'HR Admin'}`}
                         className="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <Settings className="w-5 h-5" />

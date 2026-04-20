@@ -1,10 +1,8 @@
 const express = require('express');
-const OpenAI = require('openai');
+const { openai, getModel } = require('../utils/ai');
 const Resume = require('../models/Resume');
 const auth = require('../middleware/auth');
 const router = express.Router();
-
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // @desc    AI Resume Enhancement
 // @route   POST /api/resume/enhance
@@ -28,7 +26,7 @@ Instructions:
 4. Improve summary
 5. Suggest skills
 
-Return JSON:
+Return JSON format ONLY:
 {
   "summary": "enhanced summary",
   "skills": ["skill1", "skill2"],
@@ -37,12 +35,14 @@ Return JSON:
 }`;
 
     const completion = await openai.chat.completions.create({
-      model: process.env.MODEL || 'gpt-4o-mini',
+      model: getModel(),
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' }
     });
 
-    const enhancedData = JSON.parse(completion.choices[0].message.content);
+    let content = completion.choices[0].message.content;
+    content = content.replace(/```json/g, '').replace(/```/g, '').trim();
+    const enhancedData = JSON.parse(content);
 
     // Update resume
     resume.enhancedData = enhancedData;
@@ -53,6 +53,7 @@ Return JSON:
       enhancedData
     });
   } catch (error) {
+    console.error('Enhancement Error:', error);
     res.status(500).json({ message: 'Enhancement failed', error: error.message });
   }
 });

@@ -6,6 +6,10 @@ const reportSchema = new mongoose.Schema({
     ref: 'Resume',
     required: true
   },
+  jobId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Job'
+  },
   jdText: {
     type: String,
     required: true
